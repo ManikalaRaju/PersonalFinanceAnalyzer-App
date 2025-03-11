@@ -8,8 +8,7 @@ plugins {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
 }
-repositories {
-    mavenCentral()
+reposimavenCentral()
 }
 kotlin {
     jvmToolchain(8)
