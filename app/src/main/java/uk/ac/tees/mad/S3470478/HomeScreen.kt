@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 fun HomeScreen() {
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Home Dashboard") })
+            TopAppBar(title = { Text("Home DashBoard") })
         }
     ) { padding ->
         Box(
