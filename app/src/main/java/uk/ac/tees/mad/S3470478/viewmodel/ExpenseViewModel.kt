@@ -1,14 +1,37 @@
 package uk.ac.tees.mad.S3470478.viewmodel
 
-import androidx.compose.runtime.mutableStateListOf
-import androidx.lifecycle.ViewModel
-import uk.ac.tees.mad.S3470478.model.Expense
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import uk.ac.tees.mad.S3470478.model.*
 
-class ExpenseViewModel : ViewModel() {
-    private val _expenses = mutableStateListOf<Expense>()
-    val expenses: List<Expense> = _expenses
+class ExpenseViewModel(application: Application) : AndroidViewModel(application) {
 
-    fun addExpense(expense: Expense) {
-        _expenses.add(expense)
+    private val dao = ExpenseDatabase.getDatabase(application).expenseDao()
+
+    val expenses: StateFlow<List<ExpenseEntity>> = dao.getAllExpenses()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    val totalThisMonth = expenses
+        .map { list -> list.sumOf { it.amount ?: 0.0 } }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0.0)
+    fun addExpense(expense: ExpenseEntity) {
+        viewModelScope.launch {
+            dao.insertExpense(expense)
+        }
+    }
+
+    fun updateExpense(expense: ExpenseEntity) {
+        viewModelScope.launch {
+            dao.updateExpense(expense)
+        }
+    }
+
+    fun deleteExpense(expense: ExpenseEntity) {
+        viewModelScope.launch {
+            dao.deleteExpense(expense)
+        }
     }
 }

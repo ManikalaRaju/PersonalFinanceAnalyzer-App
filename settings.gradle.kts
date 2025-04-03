@@ -1,4 +1,9 @@
 pluginManagement {
+    plugins {
+        id("org.jetbrains.kotlin.android") version "2.0.21" // or whatever Kotlin version you're using
+        id("org.jetbrains.kotlin.kapt") version "2.0.21"
+        id("org.jetbrains.kotlin.plugin.compose") version "2.0.21"
+    }
     repositories {
         google {
             content {
@@ -11,7 +16,7 @@ pluginManagement {
         gradlePluginPortal()
     }
     plugins {
-        kotlin("jvm") version "2.1.20"
+        kotlin("jvm") version "2.0.21"
     }
 }
 plugins {
