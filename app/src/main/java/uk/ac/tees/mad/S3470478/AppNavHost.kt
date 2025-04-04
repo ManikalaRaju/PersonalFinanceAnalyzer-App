@@ -1,5 +1,6 @@
 package uk.ac.tees.mad.S3470478
 
+
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -23,6 +24,16 @@ fun AppNavHost(
 
         composable("add") {
             AddExpenseScreen(navController = navController, viewModel = viewModel)
+        }
+        composable("camera") {
+            CameraScreen(
+                navController = navController,
+                onImageCaptured = { uri ->
+                    // 👉 Place your OCR logic here (coming in next steps)
+                    // For now, just log or show it
+                    println("Captured URI: $uri")
+                }
+            )
         }
 
         composable(
