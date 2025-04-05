@@ -1,36 +1,26 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.kapt")
-    id("org.jetbrains.kotlin.plugin.compose")
+        id("com.android.application")
+        id("org.jetbrains.kotlin.android")
+        id("org.jetbrains.kotlin.kapt")
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.21"
+
 }
+
 android {
-    namespace = "uk.ac.tees.mad.S3470478"
+    namespace = "uk.ac.tees.mad.s3470478"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "uk.ac.tees.mad.S3470478"
+        applicationId = "uk.ac.tees.mad.s3470478"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
     }
-    buildFeatures {
-        viewBinding=true
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
 
     buildFeatures {
         compose = true
+        viewBinding = true
     }
 
     composeOptions {
@@ -45,45 +35,66 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-}
 
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+}
 
 dependencies {
-    //camera
-    implementation("androidx.compose.material:material-icons-extended")
-    implementation("com.google.accompanist:accompanist-permissions:0.33.2-alpha")
-    implementation("androidx.camera:camera-camera2:1.3.0")
-    implementation("androidx.camera:camera-lifecycle:1.3.0")
-    implementation("androidx.camera:camera-view:1.3.0")
-    implementation("androidx.camera:camera-core:1.3.0")
-    implementation("androidx.navigation:navigation-compose:2.7.7")
-    implementation("androidx.compose.runtime:runtime:1.5.4")
-    // Room
-    implementation("androidx.room:room-runtime:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    implementation("com.google.accompanist:accompanist-permissions:0.31.4-beta")
+    dependencies {
+        // Core
+        implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+        implementation("androidx.core:core-ktx:1.10.1")
+        implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+        implementation("androidx.activity:activity-compose:1.8.0")
 
-    // Lifecycle
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+        // Jetpack Compose BOM
+        implementation("androidx.compose.compiler:compiler:1.5.11")
+        implementation(platform("androidx.compose:compose-bom:2024.02.00"))
+        implementation("androidx.compose.ui:ui")
+        implementation("androidx.compose.ui:ui-tooling-preview")
+        implementation("androidx.compose.material:material")
+        implementation("androidx.compose.material3:material3")
+        implementation("androidx.navigation:navigation-compose:2.7.7")
+
+        // Firebase, Camera, OCR
+        implementation("androidx.compose.material:material-icons-extended")
+        implementation("androidx.camera:camera-camera2:1.4.2")
+        implementation("androidx.camera:camera-lifecycle:1.4.2")
+        implementation("androidx.camera:camera-view:1.4.2")
+        implementation("androidx.camera:camera-core:1.4.2")
+        implementation("com.google.mlkit:text-recognition:16.0.1")
+        implementation("com.google.accompanist:accompanist-permissions:0.33.2-alpha")
+
+        // MPAndroidChart for Reports
+        implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+        // Room
+        implementation("androidx.room:room-runtime:2.6.1")
+        implementation("androidx.room:room-ktx:2.6.1")
+        kapt("androidx.room:room-compiler:2.6.1")
+
+        // Lifecycle & ViewModel
+        implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+
+        // Debug/Test
+        debugImplementation("androidx.compose.ui:ui-tooling")
+        debugImplementation("androidx.compose.ui:ui-test-manifest")
+        testImplementation("junit:junit:4.13.2")
+        androidTestImplementation("androidx.test.ext:junit:1.1.5")
+        androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+        androidTestImplementation(platform("androidx.compose:compose-bom:2024.02.00"))
+    }
+
 }
+
 kapt {
     correctErrorTypes = true
 }

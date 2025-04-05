@@ -1,4 +1,4 @@
-package uk.ac.tees.mad.S3470478
+package uk.ac.tees.mad.s3470478
 
 
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.NavType
-import uk.ac.tees.mad.S3470478.viewmodel.ExpenseViewModel
+import uk.ac.tees.mad.s3470478.viewmodel.ExpenseViewModel
 
 @Composable
 fun AppNavHost(
@@ -23,16 +23,52 @@ fun AppNavHost(
         }
 
         composable("add") {
-            AddExpenseScreen(navController = navController, viewModel = viewModel)
+            AddExpenseScreen(
+                navController = navController,
+                viewModel = viewModel,
+                amountArg = null,
+                categoryArg = null,
+                noteArg = null
+            )
         }
         composable("camera") {
             CameraScreen(
                 navController = navController,
                 onImageCaptured = { uri ->
-                    // 👉 Place your OCR logic here (coming in next steps)
-                    // For now, just log or show it
                     println("Captured URI: $uri")
                 }
+            )
+        }
+        composable(
+            route = "add?amount={amount}&category={category}&note={note}",
+            arguments = listOf(
+                navArgument("amount") { defaultValue = ""; nullable = true },
+                navArgument("category") { defaultValue = ""; nullable = true },
+                navArgument("note") { defaultValue = ""; nullable = true }
+            )
+        ) { backStackEntry ->
+            AddExpenseScreen(
+                navController = navController,
+                viewModel = viewModel,
+                amountArg = backStackEntry.arguments?.getString("amount"),
+                categoryArg = backStackEntry.arguments?.getString("category"),
+                noteArg = backStackEntry.arguments?.getString("note")
+            )
+        }
+        composable(
+            route = "add?amount={amount}&category={category}&note={note}",
+            arguments = listOf(
+                navArgument("amount") { defaultValue = ""; nullable = true },
+                navArgument("category") { defaultValue = ""; nullable = true },
+                navArgument("note") { defaultValue = ""; nullable = true }
+            )
+        ) { backStackEntry ->
+            AddExpenseScreen(
+                navController = navController,
+                viewModel = viewModel,
+                amountArg = backStackEntry.arguments?.getString("amount"),
+                categoryArg = backStackEntry.arguments?.getString("category"),
+                noteArg = backStackEntry.arguments?.getString("note")
             )
         }
 

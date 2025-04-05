@@ -1,4 +1,4 @@
-package uk.ac.tees.mad.S3470478
+package uk.ac.tees.mad.s3470478
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.*
@@ -14,8 +14,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
-import uk.ac.tees.mad.S3470478.model.ExpenseEntity
-import uk.ac.tees.mad.S3470478.viewmodel.ExpenseViewModel
+import uk.ac.tees.mad.s3470478.model.ExpenseEntity
+import uk.ac.tees.mad.s3470478.viewmodel.ExpenseViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

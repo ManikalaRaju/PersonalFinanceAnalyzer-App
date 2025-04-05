@@ -1,11 +1,11 @@
-package uk.ac.tees.mad.S3470478.viewmodel
+package uk.ac.tees.mad.s3470478.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import uk.ac.tees.mad.S3470478.model.*
+import uk.ac.tees.mad.s3470478.model.*
 
 class ExpenseViewModel(application: Application) : AndroidViewModel(application) {
 

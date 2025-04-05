@@ -1,4 +1,4 @@
-package uk.ac.tees.mad.S3470478.utils
+package uk.ac.tees.mad.s3470478.utils
 
 fun getCategoryIcon(category: String): String {
     return when (category) {

@@ -1,4 +1,4 @@
-package uk.ac.tees.mad.S3470478.ui.theme
+package uk.ac.tees.mad.s3470478.ui.theme
 
 import android.app.Activity
 import android.os.Build

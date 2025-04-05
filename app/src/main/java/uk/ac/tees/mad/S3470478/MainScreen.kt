@@ -1,14 +1,14 @@
-package uk.ac.tees.mad.S3470478
+package uk.ac.tees.mad.s3470478
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.outlined.PhotoCamera // Unresolved reference 'PhotoCamera'.
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import uk.ac.tees.mad.S3470478.viewmodel.ExpenseViewModel
+import uk.ac.tees.mad.s3470478.viewmodel.ExpenseViewModel
 
 @Composable
 fun MainScreen(viewModel: ExpenseViewModel) {
@@ -27,7 +27,7 @@ fun MainScreen(viewModel: ExpenseViewModel) {
                                 imageVector = when (screen) {
                                     "home" -> Icons.Default.Home
                                     "add" -> Icons.Default.Add
-                                    "camera" -> Icons.Default.Camera
+                                    "camera" -> Icons.Outlined.PhotoCamera // ✅ Using the correct icon
                                     else -> Icons.Default.Home
                                 },
                                 contentDescription = screen

@@ -1,4 +1,4 @@
-package uk.ac.tees.mad.S3470478.model
+package uk.ac.tees.mad.s3470478.model
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow

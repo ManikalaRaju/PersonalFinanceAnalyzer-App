@@ -1,4 +1,4 @@
-package uk.ac.tees.mad.S3470478
+package uk.ac.tees.mad.s3470478
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -11,15 +11,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import uk.ac.tees.mad.S3470478.model.ExpenseEntity
-import uk.ac.tees.mad.S3470478.viewmodel.ExpenseViewModel
-import uk.ac.tees.mad.S3470478.utils.getCategoryIcon
+import uk.ac.tees.mad.s3470478.model.ExpenseEntity
+import uk.ac.tees.mad.s3470478.viewmodel.ExpenseViewModel
+import uk.ac.tees.mad.s3470478.utils.getCategoryIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddExpenseScreen(navController: NavHostController, viewModel: ExpenseViewModel) {
-    var amount by remember { mutableStateOf("") }
-    var note by remember { mutableStateOf("") }
+fun AddExpenseScreen(navController: NavHostController, viewModel: ExpenseViewModel, amountArg: String?,
+                     categoryArg: String?,
+                     noteArg: String?) {
+    var amount by remember { mutableStateOf(amountArg ?: "") }
+    var category by remember { mutableStateOf(categoryArg ?: "") }
+    var note by remember { mutableStateOf(noteArg ?: "") }
 
     val categoryOptions = listOf(
         "Food", "Everyday Needs", "Entertainment", "Travel", "Health Care", "Shopping", "Rent", "Others"

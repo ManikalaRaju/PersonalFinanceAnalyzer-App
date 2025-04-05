@@ -1,4 +1,4 @@
-package uk.ac.tees.mad.S3470478
+package uk.ac.tees.mad.s3470478
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add

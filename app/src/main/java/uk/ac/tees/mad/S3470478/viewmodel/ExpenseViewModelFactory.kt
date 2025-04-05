@@ -1,4 +1,4 @@
-package uk.ac.tees.mad.S3470478.viewmodel
+package uk.ac.tees.mad.s3470478.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
