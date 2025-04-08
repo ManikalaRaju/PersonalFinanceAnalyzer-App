@@ -21,6 +21,7 @@ import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.utils.ColorTemplate
 import org.w3c.dom.Text
 import uk.ac.tees.mad.s3470478.viewmodel.ExpenseViewModel
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 

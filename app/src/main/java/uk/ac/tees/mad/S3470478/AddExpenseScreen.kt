@@ -17,17 +17,26 @@ import uk.ac.tees.mad.s3470478.utils.getCategoryIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddExpenseScreen(navController: NavHostController, viewModel: ExpenseViewModel, amountArg: String?,
-                     categoryArg: String?,
-                     noteArg: String?) {
-    var amount by remember { mutableStateOf(amountArg ?: "") }
-    var category by remember { mutableStateOf(categoryArg ?: "") }
-    var note by remember { mutableStateOf(noteArg ?: "") }
-
+fun AddExpenseScreen(
+    navController: NavHostController,
+    viewModel: ExpenseViewModel,
+    amountArg: String?,
+    categoryArg: String?,
+    noteArg: String?
+) {
     val categoryOptions = listOf(
         "Food", "Everyday Needs", "Entertainment", "Travel", "Health Care", "Shopping", "Rent", "Others"
     )
-    var selectedCategory by remember { mutableStateOf(categoryOptions[0]) }
+
+    var amount by remember { mutableStateOf(amountArg ?: "") }
+    var note by remember { mutableStateOf(noteArg ?: "") }
+    var selectedCategory by remember {
+        mutableStateOf(
+            if (categoryArg != null && categoryOptions.contains(categoryArg)) categoryArg
+            else categoryOptions[0]
+        )
+    }
+
     var expanded by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -40,7 +49,8 @@ fun AddExpenseScreen(navController: NavHostController, viewModel: ExpenseViewMod
                 .padding(padding)
                 .padding(16.dp)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+            horizontalAlignment = Alignment.Start
         ) {
             OutlinedTextField(
                 value = amount,
@@ -60,7 +70,9 @@ fun AddExpenseScreen(navController: NavHostController, viewModel: ExpenseViewMod
                     onValueChange = {},
                     readOnly = true,
                     label = { Text("Category") },
-                    trailingIcon = { Icon(Icons.Default.ArrowDropDown, contentDescription = null) },
+                    trailingIcon = {
+                        Icon(Icons.Filled.ArrowDropDown, contentDescription = "Dropdown")
+                    },
                     modifier = Modifier
                         .menuAnchor()
                         .fillMaxWidth()

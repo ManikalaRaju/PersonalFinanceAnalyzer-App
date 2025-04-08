@@ -10,6 +10,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.compose.ui.graphics.vector.ImageVector
+
+data class BottomNavItem(
+    val label: String,
+    val route: String,
+    val icon: ImageVector
+)
 
 @Composable
 fun BottomBar(navController: NavHostController) {
@@ -29,8 +36,8 @@ fun BottomBar(navController: NavHostController) {
                         navController.navigate(item.route)
                     }
                 },
-                icon = { Icon(item.icon, contentDescription = item.name) },
-                label = { Text(item.name) }
+                icon = { Icon(item.icon, contentDescription = item.label) },
+                label = { Text(item.label) }
             )
         }
     }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "255181145175",
+    "project_id": "personalfinanceanalyzer-63692",
+    "storage_bucket": "personalfinanceanalyzer-63692.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:255181145175:android:e29b1c251145d6dc7c4f12",
+        "android_client_info": {
+          "package_name": "uk.ac.tees.mad.s3470478"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBakUUMHdxevbhol28PvFBZWHxToMOzUTk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -28,12 +28,7 @@ fun HomeScreen(navController: NavHostController, viewModel: ExpenseViewModel) {
     var expenseToDelete by remember { mutableStateOf<ExpenseEntity?>(null) }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Dashboard") }) },
-        floatingActionButton = {
-            FloatingActionButton(onClick = { navController.navigate("add") }) {
-                Text("+")
-            }
-        }
+        topBar = { TopAppBar(title = { Text("  Your expenses manager") }) },
     ) { padding ->
         Column(
             modifier = Modifier
