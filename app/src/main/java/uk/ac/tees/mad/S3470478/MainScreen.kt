@@ -8,10 +8,14 @@ import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.navigation.compose.rememberNavController
+import uk.ac.tees.mad.s3470478.viewmodel.AuthenticationViewModel
 import uk.ac.tees.mad.s3470478.viewmodel.ExpenseViewModel
 
 @Composable
-fun MainScreen(viewModel: ExpenseViewModel) {
+fun MainScreen(
+    viewModel: ExpenseViewModel,
+    authViewModel: AuthenticationViewModel
+) {
     val navController = rememberNavController()
     val items = listOf("home", "add", "camera", "reports")
 
@@ -39,11 +43,11 @@ fun MainScreen(viewModel: ExpenseViewModel) {
                 }
             }
         }
-    ) { padding ->
+    ) {
         AppNavHost(
             navController = navController,
             viewModel = viewModel,
-            padding = padding
+            authViewModel = authViewModel
         )
     }
 }

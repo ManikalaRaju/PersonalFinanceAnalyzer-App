@@ -1,13 +1,16 @@
 package uk.ac.tees.mad.s3470478
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.navigation.*
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.*
+import androidx.navigation.navArgument
+import uk.ac.tees.mad.s3470478.viewmodel.AuthenticationViewModel
 import uk.ac.tees.mad.s3470478.viewmodel.ExpenseViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -15,13 +18,13 @@ import uk.ac.tees.mad.s3470478.viewmodel.ExpenseViewModel
 fun AppNavHost(
     navController: NavHostController,
     viewModel: ExpenseViewModel,
-    padding: PaddingValues
+    authViewModel: AuthenticationViewModel
 ) {
     val currentBackStack by navController.currentBackStackEntryAsState()
-    val currentRoute = currentBackStack?.destination?.route ?: "home"
+    val currentRoute = currentBackStack?.destination?.route ?: "splash"
 
     val showBottomBar = currentRoute == "home"
-    val showTopBar = !showBottomBar
+    val showTopBar = !showBottomBar && currentRoute != "splash"
 
     val screenTitle = when {
         currentRoute.startsWith("add") -> "Add Expense"
@@ -52,9 +55,18 @@ fun AppNavHost(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "home",
+            startDestination = "splash",
             modifier = Modifier.padding(innerPadding)
         ) {
+            composable("splash") {
+                    SplashScreen(navController = navController, viewModel = authViewModel)
+            }
+            composable("login") {
+                LoginScreen(navController = navController, viewModel = authViewModel)
+            }
+            composable("signup") {
+                SignupScreen(navController = navController, viewModel = authViewModel)
+            }
             composable("home") {
                 HomeScreen(navController, viewModel)
             }
