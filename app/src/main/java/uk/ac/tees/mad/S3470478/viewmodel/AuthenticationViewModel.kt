@@ -52,7 +52,9 @@ class AuthenticationViewModel : ViewModel() {
         _isLoggedIn.value = false
         _uiState.value = AuthUiState.Idle
     }
-
+    fun getCurrentUserEmail(): String? {
+        return FirebaseAuth.getInstance().currentUser?.email
+    }
     fun resetState() {
         _uiState.value = AuthUiState.Idle
     }

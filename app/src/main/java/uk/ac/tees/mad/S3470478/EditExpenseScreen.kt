@@ -1,6 +1,5 @@
 package uk.ac.tees.mad.s3470478
 
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -16,6 +15,7 @@ import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import uk.ac.tees.mad.s3470478.model.ExpenseEntity
 import uk.ac.tees.mad.s3470478.viewmodel.ExpenseViewModel
+import uk.ac.tees.mad.s3470478.utils.getCategoryIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,7 +28,9 @@ fun EditExpenseScreen(
     val expense = expenses.find { it.id == expenseId }
 
     if (expense == null) {
-        LaunchedEffect(Unit) { navController.popBackStack() }
+        LaunchedEffect(Unit) {
+            navController.popBackStack()
+        }
         return
     }
 
@@ -42,8 +44,8 @@ fun EditExpenseScreen(
     val scope = rememberCoroutineScope()
 
     val categoryOptions = listOf(
-        "🍔 Food", "🧻 Everyday Needs", "🎮 Entertainment", "✈️ Travel",
-        "💊 Health Care", "🛍 Shopping", "🏠 Rent", "📦 Others"
+        "Food", "Everyday Needs", "Entertainment", "Travel",
+        "Health Care", "Shopping", "Rent", "Others"
     )
 
     Scaffold(
@@ -70,8 +72,7 @@ fun EditExpenseScreen(
                 label = { Text("Amount (£)") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp)
+                modifier = Modifier.fillMaxWidth()
             )
 
             ExposedDropdownMenuBox(
@@ -79,21 +80,25 @@ fun EditExpenseScreen(
                 onExpandedChange = { expanded = !expanded }
             ) {
                 OutlinedTextField(
-                    value = selectedCategory,
+                    value = "${getCategoryIcon(selectedCategory)} $selectedCategory",
                     onValueChange = {},
                     readOnly = true,
                     label = { Text("Category") },
-                    trailingIcon = { Icon(Icons.Default.ArrowDropDown, contentDescription = null) },
-                    modifier = Modifier.menuAnchor().fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp)
+                    trailingIcon = {
+                        Icon(Icons.Default.ArrowDropDown, contentDescription = "Dropdown")
+                    },
+                    modifier = Modifier
+                        .menuAnchor()
+                        .fillMaxWidth()
                 )
+
                 ExposedDropdownMenu(
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {
                     categoryOptions.forEach { category ->
                         DropdownMenuItem(
-                            text = { Text(category) },
+                            text = { Text("${getCategoryIcon(category)} $category") },
                             onClick = {
                                 selectedCategory = category
                                 expanded = false
@@ -108,8 +113,7 @@ fun EditExpenseScreen(
                 onValueChange = { note = it },
                 label = { Text("Note") },
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp)
+                modifier = Modifier.fillMaxWidth()
             )
 
             Row(
@@ -119,8 +123,7 @@ fun EditExpenseScreen(
                 Button(
                     onClick = { showDialog = true },
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
-                    modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(12.dp)
+                    modifier = Modifier.weight(1f)
                 ) {
                     Text("Delete", color = Color.White)
                 }
@@ -140,8 +143,7 @@ fun EditExpenseScreen(
                         }
                         navController.popBackStack()
                     },
-                    modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(12.dp)
+                    modifier = Modifier.weight(1f)
                 ) {
                     Text("Update")
                 }

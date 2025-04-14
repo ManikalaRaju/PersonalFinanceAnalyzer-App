@@ -1,6 +1,7 @@
 package uk.ac.tees.mad.s3470478
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -10,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import uk.ac.tees.mad.s3470478.model.ExpenseEntity
 import uk.ac.tees.mad.s3470478.viewmodel.ExpenseViewModel
@@ -36,27 +38,34 @@ fun AddExpenseScreen(
             else categoryOptions[0]
         )
     }
-
     var expanded by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Add Expense") })
+            TopAppBar(
+                title = { Text("➕ Add Expense") }
+            )
         }
     ) { padding ->
         Column(
             modifier = Modifier
                 .padding(padding)
-                .padding(16.dp)
+                .padding(horizontal = 24.dp, vertical = 16.dp)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(20.dp),
-            horizontalAlignment = Alignment.Start
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
+            Text(
+                text = "Enter details to save a new expense.",
+                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
             OutlinedTextField(
                 value = amount,
                 onValueChange = { amount = it },
                 label = { Text("Amount (£)") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                shape = RoundedCornerShape(12.dp),
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -66,18 +75,18 @@ fun AddExpenseScreen(
                 onExpandedChange = { expanded = !expanded }
             ) {
                 OutlinedTextField(
+                    readOnly = true,
                     value = "${getCategoryIcon(selectedCategory)} $selectedCategory",
                     onValueChange = {},
-                    readOnly = true,
                     label = { Text("Category") },
                     trailingIcon = {
-                        Icon(Icons.Filled.ArrowDropDown, contentDescription = "Dropdown")
+                        Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
                     },
+                    shape = RoundedCornerShape(12.dp),
                     modifier = Modifier
                         .menuAnchor()
                         .fillMaxWidth()
                 )
-
                 ExposedDropdownMenu(
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
@@ -99,6 +108,7 @@ fun AddExpenseScreen(
                 onValueChange = { note = it },
                 label = { Text("Note") },
                 singleLine = true,
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -112,9 +122,10 @@ fun AddExpenseScreen(
                     viewModel.addExpense(expense)
                     navController.popBackStack()
                 },
+                shape = RoundedCornerShape(10.dp),
                 modifier = Modifier.align(Alignment.End)
             ) {
-                Text("Save")
+                Text("💾 Save")
             }
         }
     }

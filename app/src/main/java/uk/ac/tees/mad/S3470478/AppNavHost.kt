@@ -68,8 +68,13 @@ fun AppNavHost(
                 SignupScreen(navController = navController, viewModel = authViewModel)
             }
             composable("home") {
-                HomeScreen(navController, viewModel)
+                HomeScreen(
+                    navController = navController,
+                    viewModel = viewModel,
+                    authViewModel = authViewModel
+                )
             }
+
             composable("camera") {
                 CameraScreen(navController)
             }
@@ -85,6 +90,10 @@ fun AppNavHost(
                     noteArg = null
                 )
             }
+            composable("profile") {
+                ProfileScreen(navController = navController, viewModel = authViewModel)
+            }
+
             composable(
                 route = "add?amount={amount}&category={category}&note={note}",
                 arguments = listOf(
@@ -106,7 +115,8 @@ fun AppNavHost(
                 arguments = listOf(navArgument("expenseId") {
                     type = NavType.IntType
                 })
-            ) { backStackEntry ->
+            )
+            { backStackEntry ->
                 val expenseId = backStackEntry.arguments?.getInt("expenseId") ?: -1
                 EditExpenseScreen(
                     navController = navController,

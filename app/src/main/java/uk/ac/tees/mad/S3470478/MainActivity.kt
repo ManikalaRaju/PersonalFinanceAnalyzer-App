@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material3.Surface
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.FirebaseApp // ✅ Add this import
+import uk.ac.tees.mad.s3470478.AppNavHost
 import uk.ac.tees.mad.s3470478.ui.theme.PersonalFinanceAnalyzerTheme
 import uk.ac.tees.mad.s3470478.viewmodel.AuthenticationViewModel
 import uk.ac.tees.mad.s3470478.viewmodel.ExpenseViewModel
@@ -17,6 +19,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        FirebaseApp.initializeApp(this)
+
         setContent {
             PersonalFinanceAnalyzerTheme {
                 Surface {

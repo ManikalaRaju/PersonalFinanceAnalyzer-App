@@ -1,5 +1,6 @@
 package uk.ac.tees.mad.s3470478
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -22,12 +23,14 @@ fun LoginScreen(
 
     LaunchedEffect(uiState) {
         if (uiState is AuthUiState.Success) {
+            Log.d("LoginScreen", "Login success. Navigating to home.")
             navController.navigate("home") {
                 popUpTo("login") { inclusive = true }
             }
             viewModel.resetState()
         }
     }
+
 
     Column(
         modifier = Modifier
