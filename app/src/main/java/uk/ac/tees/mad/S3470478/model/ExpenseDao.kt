@@ -12,6 +12,9 @@ interface ExpenseDao {
     @Update
     suspend fun updateExpense(expense: ExpenseEntity)
 
+    @Update
+    suspend fun updateExpenses(expenses: List<ExpenseEntity>)
+
     @Delete
     suspend fun deleteExpense(expense: ExpenseEntity)
 
@@ -20,4 +23,7 @@ interface ExpenseDao {
 
     @Query("SELECT SUM(amount) FROM expenses")
     fun getTotalAmount(): Flow<Double>
+
+    @Query("SELECT * FROM expenses WHERE isSynced = 0")
+    fun getUnsyncedExpenses(): Flow<List<ExpenseEntity>> // New function to fetch unsynced expenses
 }

@@ -18,7 +18,9 @@ import uk.ac.tees.mad.s3470478.viewmodel.ExpenseViewModel
 fun AppNavHost(
     navController: NavHostController,
     viewModel: ExpenseViewModel,
-    authViewModel: AuthenticationViewModel
+    authViewModel: AuthenticationViewModel,
+    darkModeEnabled: Boolean,
+    onToggleDarkMode: () -> Unit
 ) {
     val currentBackStack by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStack?.destination?.route ?: "splash"
@@ -59,7 +61,7 @@ fun AppNavHost(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("splash") {
-                    SplashScreen(navController = navController, viewModel = authViewModel)
+                SplashScreen(navController = navController, viewModel = authViewModel)
             }
             composable("login") {
                 LoginScreen(navController = navController, viewModel = authViewModel)
@@ -71,10 +73,11 @@ fun AppNavHost(
                 HomeScreen(
                     navController = navController,
                     viewModel = viewModel,
-                    authViewModel = authViewModel
+                    authViewModel = authViewModel,
+                    darkModeEnabled = darkModeEnabled,
+                    onToggleDarkMode = onToggleDarkMode
                 )
             }
-
             composable("camera") {
                 CameraScreen(navController)
             }
@@ -93,7 +96,6 @@ fun AppNavHost(
             composable("profile") {
                 ProfileScreen(navController = navController, viewModel = authViewModel)
             }
-
             composable(
                 route = "add?amount={amount}&category={category}&note={note}",
                 arguments = listOf(
@@ -115,8 +117,7 @@ fun AppNavHost(
                 arguments = listOf(navArgument("expenseId") {
                     type = NavType.IntType
                 })
-            )
-            { backStackEntry ->
+            ) { backStackEntry ->
                 val expenseId = backStackEntry.arguments?.getInt("expenseId") ?: -1
                 EditExpenseScreen(
                     navController = navController,

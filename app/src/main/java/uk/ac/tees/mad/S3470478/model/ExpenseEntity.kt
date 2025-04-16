@@ -9,6 +9,6 @@ data class ExpenseEntity(
     val amount: Double,
     val category: String,
     val note: String,
-    val timestamp: Long = System.currentTimeMillis()
+    val timestamp: Long = System.currentTimeMillis(),
+    val isSynced: Boolean = false // Added for Firestore sync support
 )
-

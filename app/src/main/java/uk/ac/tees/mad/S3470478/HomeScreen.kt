@@ -28,7 +28,9 @@ import java.util.*
 fun HomeScreen(
     navController: NavHostController,
     viewModel: ExpenseViewModel,
-    authViewModel: AuthenticationViewModel
+    authViewModel: AuthenticationViewModel,
+    darkModeEnabled: Boolean,
+    onToggleDarkMode: () -> Unit
 ) {
     val expenses by viewModel.expenses.collectAsState()
     val total by viewModel.totalThisMonth.collectAsState()
@@ -58,8 +60,9 @@ fun HomeScreen(
                     Text("🌙 Dark Mode", modifier = Modifier.weight(1f))
                     Switch(
                         checked = darkModeEnabled,
-                        onCheckedChange = { darkModeEnabled = it }
+                        onCheckedChange = { onToggleDarkMode() }
                     )
+
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))

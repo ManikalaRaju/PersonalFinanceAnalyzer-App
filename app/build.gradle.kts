@@ -65,6 +65,7 @@ android {
         implementation("androidx.navigation:navigation-compose:2.7.7")
 
         // Firebase, Camera, OCR
+        implementation("com.google.firebase:firebase-firestore-ktx:24.9.0")
         implementation("com.google.firebase:firebase-auth:22.3.1")
         implementation("com.airbnb.android:lottie-compose:6.2.0")
         implementation("androidx.compose.material:material-icons-extended")

@@ -19,6 +19,9 @@ fun MainScreen(
     val navController = rememberNavController()
     val items = listOf("home", "add", "camera", "reports")
 
+    // State for dark mode
+    var darkModeEnabled by remember { mutableStateOf(false) }
+
     Scaffold(
         bottomBar = {
             NavigationBar {
@@ -47,7 +50,9 @@ fun MainScreen(
         AppNavHost(
             navController = navController,
             viewModel = viewModel,
-            authViewModel = authViewModel
+            authViewModel = authViewModel,
+            darkModeEnabled = darkModeEnabled,
+            onToggleDarkMode = { darkModeEnabled = !darkModeEnabled }
         )
     }
 }
