@@ -6,14 +6,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
-import uk.ac.tees.mad.s3470478.model.ExpenseEntity
 import uk.ac.tees.mad.s3470478.viewmodel.ExpenseViewModel
 import uk.ac.tees.mad.s3470478.utils.getCategoryIcon
 
@@ -27,6 +25,7 @@ fun EditExpenseScreen(
     val expenses by viewModel.expenses.collectAsState()
     val expense = expenses.find { it.id == expenseId }
 
+    // If no matching expense is found, navigate back
     if (expense == null) {
         LaunchedEffect(Unit) {
             navController.popBackStack()
@@ -34,6 +33,7 @@ fun EditExpenseScreen(
         return
     }
 
+    // State variables for editing fields
     var amount by remember { mutableStateOf(expense.amount.toString()) }
     var note by remember { mutableStateOf(expense.note) }
     var selectedCategory by remember { mutableStateOf(expense.category) }
@@ -43,6 +43,7 @@ fun EditExpenseScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
+    // Available category choices
     val categoryOptions = listOf(
         "Food", "Everyday Needs", "Entertainment", "Travel",
         "Health Care", "Shopping", "Rent", "Others"
@@ -61,11 +62,9 @@ fun EditExpenseScreen(
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            Text(
-                text = "Edit Your Expense",
-                style = MaterialTheme.typography.headlineSmall
-            )
+            Text("Edit Your Expense", style = MaterialTheme.typography.headlineSmall)
 
+            // Input for amount
             OutlinedTextField(
                 value = amount,
                 onValueChange = { amount = it },
@@ -75,6 +74,7 @@ fun EditExpenseScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
+            // Category dropdown
             ExposedDropdownMenuBox(
                 expanded = expanded,
                 onExpandedChange = { expanded = !expanded }
@@ -87,9 +87,7 @@ fun EditExpenseScreen(
                     trailingIcon = {
                         Icon(Icons.Default.ArrowDropDown, contentDescription = "Dropdown")
                     },
-                    modifier = Modifier
-                        .menuAnchor()
-                        .fillMaxWidth()
+                    modifier = Modifier.menuAnchor().fillMaxWidth()
                 )
 
                 ExposedDropdownMenu(
@@ -108,6 +106,7 @@ fun EditExpenseScreen(
                 }
             }
 
+            // Note input
             OutlinedTextField(
                 value = note,
                 onValueChange = { note = it },
@@ -116,10 +115,12 @@ fun EditExpenseScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
+            // Action buttons
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
+                // Delete button
                 Button(
                     onClick = { showDialog = true },
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
@@ -130,6 +131,7 @@ fun EditExpenseScreen(
 
                 Spacer(modifier = Modifier.width(16.dp))
 
+                // Update button
                 Button(
                     onClick = {
                         val updated = expense.copy(
@@ -149,6 +151,7 @@ fun EditExpenseScreen(
                 }
             }
 
+            // Confirmation dialog for deletion
             if (showDialog) {
                 AlertDialog(
                     onDismissRequest = { showDialog = false },

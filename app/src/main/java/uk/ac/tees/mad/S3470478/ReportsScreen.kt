@@ -27,6 +27,7 @@ fun ReportsScreen(viewModel: ExpenseViewModel = viewModel()) {
     val tabTitles = listOf("📊 Charts", "📁 Past Expenses")
     var selectedTabIndex by remember { mutableStateOf(0) }
 
+    // Tab navigation layout
     Column(modifier = Modifier.fillMaxSize()) {
         ScrollableTabRow(
             selectedTabIndex = selectedTabIndex,
@@ -41,6 +42,7 @@ fun ReportsScreen(viewModel: ExpenseViewModel = viewModel()) {
             }
         }
 
+        // Render selected tab content
         when (selectedTabIndex) {
             0 -> ChartsTab(expenses)
             1 -> PastExpensesTab(expenses)
@@ -50,6 +52,7 @@ fun ReportsScreen(viewModel: ExpenseViewModel = viewModel()) {
 
 @Composable
 fun ChartsTab(expenses: List<ExpenseEntity>) {
+    // Group expenses by category and by date
     val categoryTotals = expenses.groupBy { it.category }
         .mapValues { it.value.sumOf { expense -> expense.amount } }
 
@@ -57,6 +60,7 @@ fun ChartsTab(expenses: List<ExpenseEntity>) {
         SimpleDateFormat("dd MMM", Locale.getDefault()).format(Date(it.timestamp))
     }.mapValues { it.value.sumOf { expense -> expense.amount } }
 
+    // Vertical scrollable layout for charts
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -66,6 +70,7 @@ fun ChartsTab(expenses: List<ExpenseEntity>) {
     ) {
         Text("📊 Expense Breakdown", style = MaterialTheme.typography.headlineSmall)
 
+        // Pie chart by category
         Text("By Category", style = MaterialTheme.typography.titleMedium)
         AndroidView(
             modifier = Modifier
@@ -88,6 +93,7 @@ fun ChartsTab(expenses: List<ExpenseEntity>) {
             }
         )
 
+        // Bar chart by date
         Text("By Date", style = MaterialTheme.typography.titleMedium)
         AndroidView(
             modifier = Modifier

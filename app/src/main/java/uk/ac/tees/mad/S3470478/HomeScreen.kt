@@ -11,7 +11,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
@@ -39,8 +38,8 @@ fun HomeScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
     var expenseToDelete by remember { mutableStateOf<ExpenseEntity?>(null) }
-    var darkModeEnabled by remember { mutableStateOf(false) }
 
+    // Right-side navigation drawer for profile, dark mode toggle, and logout
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -54,15 +53,14 @@ fun HomeScreen(
                 Text("👤 Logged in as", style = MaterialTheme.typography.labelMedium)
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(email, style = MaterialTheme.typography.titleMedium)
-                Spacer(modifier = Modifier.height(24.dp))
 
+                Spacer(modifier = Modifier.height(24.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text("🌙 Dark Mode", modifier = Modifier.weight(1f))
                     Switch(
                         checked = darkModeEnabled,
                         onCheckedChange = { onToggleDarkMode() }
                     )
-
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
@@ -82,15 +80,21 @@ fun HomeScreen(
     ) {
         Scaffold(
             topBar = {
+                // Profile icon (left-aligned) opens drawer
                 TopAppBar(
-                    title = { Text("💼 Personal Finance Analyzer") },
-                    actions = {
+                    navigationIcon = {
                         IconButton(onClick = {
                             coroutineScope.launch { drawerState.open() }
                         }) {
-                            Icon(Icons.Default.AccountCircle, contentDescription = "Profile")
+                            Icon(
+                                imageVector = Icons.Default.AccountCircle,
+                                contentDescription = "Profile",
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(28.dp)
+                            )
                         }
-                    }
+                    },
+                    title = { Text("💼 Personal Finance Analyzer") }
                 )
             }
         ) { padding ->
@@ -100,7 +104,7 @@ fun HomeScreen(
                     .verticalScroll(rememberScrollState())
                     .fillMaxSize()
             ) {
-                // Top section: Total This Month
+                // Top summary box: Total expenses this month
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -123,7 +127,7 @@ fun HomeScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Bottom section: Recent Expenses
+                // Expense list section
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -148,7 +152,7 @@ fun HomeScreen(
                 }
             }
 
-            // Deletion confirmation
+            // Expense deletion confirmation
             expenseToDelete?.let {
                 AlertDialog(
                     onDismissRequest = { expenseToDelete = null },
@@ -179,6 +183,7 @@ fun ExpenseCard(
     val dateFormat = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault())
     val formattedDate = dateFormat.format(Date(expense.timestamp))
 
+    // Reusable card UI for a single expense entry
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.medium,

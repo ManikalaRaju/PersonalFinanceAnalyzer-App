@@ -8,14 +8,10 @@ object ExpenseFirestoreHelper {
 
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
-
-    // Get reference to the logged-in user's expense collection
     private fun getUserExpensesRef() =
         auth.currentUser?.uid?.let { uid ->
             db.collection("users").document(uid).collection("expenses")
         }
-
-    // Upload a single expense to Firestore
     fun uploadExpense(expense: ExpenseEntity, onComplete: (Boolean) -> Unit) {
         val data = hashMapOf(
             "amount" to expense.amount,

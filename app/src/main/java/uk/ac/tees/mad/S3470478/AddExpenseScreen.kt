@@ -11,7 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import uk.ac.tees.mad.s3470478.model.ExpenseEntity
 import uk.ac.tees.mad.s3470478.viewmodel.ExpenseViewModel
@@ -26,26 +25,21 @@ fun AddExpenseScreen(
     categoryArg: String?,
     noteArg: String?
 ) {
-    val categoryOptions = listOf(
-        "Food", "Everyday Needs", "Entertainment", "Travel", "Health Care", "Shopping", "Rent", "Others"
-    )
+    // Predefined category options
+    val categoryOptions = listOf("Food", "Everyday Needs", "Entertainment", "Travel", "Health Care", "Shopping", "Rent", "Others")
 
+    // Form state
     var amount by remember { mutableStateOf(amountArg ?: "") }
     var note by remember { mutableStateOf(noteArg ?: "") }
     var selectedCategory by remember {
         mutableStateOf(
-            if (categoryArg != null && categoryOptions.contains(categoryArg)) categoryArg
-            else categoryOptions[0]
+            if (categoryArg != null && categoryOptions.contains(categoryArg)) categoryArg else categoryOptions[0]
         )
     }
     var expanded by remember { mutableStateOf(false) }
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("➕ Add Expense") }
-            )
-        }
+        topBar = { TopAppBar(title = { Text("➕ Add Expense") }) }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -54,12 +48,9 @@ fun AddExpenseScreen(
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            Text(
-                text = "Enter details to save a new expense.",
-                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp),
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            Text("Enter details to save a new expense.", style = MaterialTheme.typography.bodyMedium)
 
+            // Amount input
             OutlinedTextField(
                 value = amount,
                 onValueChange = { amount = it },
@@ -70,27 +61,18 @@ fun AddExpenseScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            ExposedDropdownMenuBox(
-                expanded = expanded,
-                onExpandedChange = { expanded = !expanded }
-            ) {
+            // Category dropdown
+            ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = !expanded }) {
                 OutlinedTextField(
                     readOnly = true,
                     value = "${getCategoryIcon(selectedCategory)} $selectedCategory",
                     onValueChange = {},
                     label = { Text("Category") },
-                    trailingIcon = {
-                        Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
-                    },
+                    trailingIcon = { Icon(Icons.Default.ArrowDropDown, contentDescription = null) },
                     shape = RoundedCornerShape(12.dp),
-                    modifier = Modifier
-                        .menuAnchor()
-                        .fillMaxWidth()
+                    modifier = Modifier.menuAnchor().fillMaxWidth()
                 )
-                ExposedDropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
+                ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                     categoryOptions.forEach { category ->
                         DropdownMenuItem(
                             text = { Text("${getCategoryIcon(category)} $category") },
@@ -103,6 +85,7 @@ fun AddExpenseScreen(
                 }
             }
 
+            // Note input
             OutlinedTextField(
                 value = note,
                 onValueChange = { note = it },
@@ -112,6 +95,7 @@ fun AddExpenseScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
+            // Save button
             Button(
                 onClick = {
                     val expense = ExpenseEntity(

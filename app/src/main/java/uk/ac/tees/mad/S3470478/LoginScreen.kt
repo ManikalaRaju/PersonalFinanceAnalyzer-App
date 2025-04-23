@@ -11,16 +11,19 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import uk.ac.tees.mad.s3470478.viewmodel.AuthenticationViewModel
 import uk.ac.tees.mad.s3470478.viewmodel.AuthUiState
+import uk.ac.tees.mad.s3470478.viewmodel.ExpenseViewModel
 
 @Composable
 fun LoginScreen(
     navController: NavHostController,
-    viewModel: AuthenticationViewModel
+    viewModel: AuthenticationViewModel,
+    expenseViewModel: ExpenseViewModel
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val uiState by viewModel.uiState.collectAsState()
 
+    // Automatically navigate to home after successful login
     LaunchedEffect(uiState) {
         if (uiState is AuthUiState.Success) {
             Log.d("LoginScreen", "Login success. Navigating to home.")
@@ -31,7 +34,7 @@ fun LoginScreen(
         }
     }
 
-
+    // UI layout for login screen
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -60,8 +63,13 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(20.dp))
 
+        // Triggers Firebase login and syncs expenses from Firestore
         Button(
-            onClick = { viewModel.login(email.trim(), password.trim()) },
+            onClick = {
+                viewModel.login(email.trim(), password.trim()) {
+                    expenseViewModel.refreshFromCloud()
+                }
+            },
             enabled = uiState !is AuthUiState.Loading
         ) {
             Text("Login")
@@ -71,13 +79,15 @@ fun LoginScreen(
             Text("Don't have an account? Sign Up")
         }
 
+        // Loading state indicator
         if (uiState is AuthUiState.Loading) {
             CircularProgressIndicator(modifier = Modifier.padding(top = 16.dp))
         }
 
+        // Error message display
         if (uiState is AuthUiState.Error) {
             Text(
-                text = (uiState as AuthUiState.Error).message,//Unresolved reference 'message'.
+                text = (uiState as AuthUiState.Error).message,
                 color = MaterialTheme.colorScheme.error,
                 modifier = Modifier.padding(top = 8.dp)
             )

@@ -64,10 +64,18 @@ fun AppNavHost(
                 SplashScreen(navController = navController, viewModel = authViewModel)
             }
             composable("login") {
-                LoginScreen(navController = navController, viewModel = authViewModel)
+                LoginScreen(
+                    navController = navController,
+                    viewModel = authViewModel,
+                    expenseViewModel = viewModel
+                )
             }
             composable("signup") {
-                SignupScreen(navController = navController, viewModel = authViewModel)
+                SignupScreen(
+                    navController = navController,
+                    viewModel = authViewModel,
+                    expenseViewModel = viewModel
+                )
             }
             composable("home") {
                 HomeScreen(

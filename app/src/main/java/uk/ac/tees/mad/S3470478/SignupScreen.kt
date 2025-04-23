@@ -10,16 +10,19 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import uk.ac.tees.mad.s3470478.viewmodel.AuthenticationViewModel
 import uk.ac.tees.mad.s3470478.viewmodel.AuthUiState
+import uk.ac.tees.mad.s3470478.viewmodel.ExpenseViewModel
 
 @Composable
 fun SignupScreen(
     navController: NavHostController,
-    viewModel: AuthenticationViewModel
+    viewModel: AuthenticationViewModel,
+    expenseViewModel: ExpenseViewModel
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val uiState by viewModel.uiState.collectAsState()
 
+    // After successful signup, redirect to login
     LaunchedEffect(uiState) {
         if (uiState is AuthUiState.Success) {
             navController.navigate("login") {
@@ -29,6 +32,7 @@ fun SignupScreen(
         }
     }
 
+    // UI layout for signup screen
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -57,8 +61,13 @@ fun SignupScreen(
 
         Spacer(modifier = Modifier.height(20.dp))
 
+        // Registers the user and syncs cloud data
         Button(
-            onClick = { viewModel.signup(email.trim(), password.trim()) },
+            onClick = {
+                viewModel.signup(email.trim(), password.trim()) {
+                    expenseViewModel.refreshFromCloud()
+                }
+            },
             enabled = uiState !is AuthUiState.Loading
         ) {
             Text("Sign Up")
@@ -68,10 +77,12 @@ fun SignupScreen(
             Text("Already have an account? Login")
         }
 
+        // Loading indicator
         if (uiState is AuthUiState.Loading) {
             CircularProgressIndicator(modifier = Modifier.padding(top = 16.dp))
         }
 
+        // Error message display
         if (uiState is AuthUiState.Error) {
             Text(
                 text = (uiState as AuthUiState.Error).message,

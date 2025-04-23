@@ -49,7 +49,7 @@ object ReceiptAnalyzer {
         val amount = totalLine?.let { amountRegex.find(it)?.value }
             ?: amountRegex.find(receiptText)?.value
 
-        // Shop Name (usually first line or two)
+        // Shop Name
         val shopName = lines.firstOrNull()
 
         //  Detect Category based on keywords
